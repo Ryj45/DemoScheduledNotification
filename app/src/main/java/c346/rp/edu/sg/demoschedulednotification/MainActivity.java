@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnSchedule;
     AlarmManager am;
+    int reqCode = 12345;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,20 +31,17 @@ public class MainActivity extends AppCompatActivity {
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.SECOND, 5);
 
-                //Create a new PendingIntent and add it to the AlarmManager
                 Intent intent = new Intent(MainActivity.this,
                         ScheduledNotificationReceiver.class);
-                int reqCode = 12345;
+
                 PendingIntent pendingIntent =
-                        PendingIntent.getActivity(MainActivity.this,
+                        PendingIntent.getBroadcast(MainActivity.this,
                                 reqCode, intent,
                                 PendingIntent.FLAG_CANCEL_CURRENT);
 
-                // Get AlarmManager instance
                 am = (AlarmManager)
                         getSystemService(Activity.ALARM_SERVICE);
 
-                // Set the alarm
                 am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                         pendingIntent);
 
